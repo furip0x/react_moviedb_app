@@ -9,20 +9,18 @@ import NotFound from './components/NotFound'
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className='app-wrapper'>
         <Header />
         <main className='app-content'>
           <Switch>
-            <Route exact path='/'>
+            {/* <Route exact path='/'>
               <Home />
-            </Route>
+            </Route> */}
             <Route exact path='/' component={Home} />
             <Route path='/movie/:id' children={<SingleMovie />}></Route>
             <Route path='/about' component={About} />
-            {/* <Route path='*'>
-              <NotFound />
-            </Route> */}
+            <Route path='*' component={NotFound} />
           </Switch>
         </main>
         <Footer />
