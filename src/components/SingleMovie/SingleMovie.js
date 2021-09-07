@@ -14,7 +14,7 @@ const SingleMovie = () => {
     const fetchSingleMovie = async () => {
       try {
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=37b7f7ff&i=${id}`
+          `https://www.omdbapi.com/?apikey=37b7f7ff&i=${id}`
         )
         const data = await response.json()
         // console.log('Data:', data)

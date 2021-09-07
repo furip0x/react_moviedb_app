@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from 'react'
 
 const AppContext = createContext()
-const url = 'http://www.omdbapi.com/?apikey=37b7f7ff&s='
+const url = 'https://www.omdbapi.com/?apikey=37b7f7ff&s='
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setsearchTerm] = useState('rick')
