@@ -186,8 +186,9 @@ code {
 .search__submit {
   width: 6.25rem;
   border: transparent;
-  color: #324d67;
+  color: #6e35bd;
   font-size: 1rem;
+  font-weight: 700;
   background: hsl(265, 37%, 90%);
   border-radius: 0;
   border-top-right-radius: 0.25rem;
@@ -201,6 +202,7 @@ code {
 }
 
 .search__submit:active {
+  color: #333;
   background-color: #b6d7ef;
 }
 
