@@ -1,77 +1,66 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import NoPictureImage from '../../no_picture_available.png'
 import Loading from '../Loading'
+import useFetch from '../../hooks/useFetch'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 
+// https://www.omdbapi.com/?apikey=37b7f7ff&i=${id}
+
 const SingleMovie = () => {
   const { id } = useParams()
-  const [loading, setLoading] = useState(false)
-  const [movie, setMovie] = useState({})
-
-  useEffect(() => {
-    setLoading(true)
-    const fetchSingleMovie = async () => {
-      try {
-        const response = await fetch(
-          `https://www.omdbapi.com/?apikey=37b7f7ff&i=${id}`
-        )
-        const data = await response.json()
-        // console.log('Data:', data)
-        if (data) {
-          const newMovie = {
-            title: data.Title,
-            year: data.Year,
-            rated: data.Rated,
-            runtime: data.Runtime,
-            genre: data.Genre,
-            plot: data.Plot,
-            awards: data.Awards,
-            poster: data.Poster,
-            imdbRating: data.imdbRating,
-            imdbVotes: data.imdbVotes,
-          }
-          setMovie(newMovie)
-        } else {
-          setMovie(null)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-      setLoading(false)
-    }
-    fetchSingleMovie()
-  }, [id])
+  const { loading, error, data } = useFetch(`&i=${id}`)
 
   if (loading) {
     return <Loading />
-  } else {
+  }
+  if (error.show) {
     return (
-      <section className='single-movie'>
-        <img
-          className='single-movie__img'
-          src={movie.poster === 'N/A' ? NoPictureImage : movie.poster}
-          alt={movie.title}
-        />
-        <div className='single-movie__info'>
-          <h2 className='single-movie__title'>{movie.title}</h2>
-          <p>{movie.plot}</p>
-          <div className='single-movie__tags'>
-            <span>Year: {movie.year}</span>
-            <span>Runtime: {movie.runtime}</span>
-            <span>Rated: {movie.rated}</span>
-            <span>Genre{movie.genre}</span>
-            <span>{movie.awards}</span>
-            <span>Rating: {movie.imdbRating}</span>
-            <span>Votes: {movie.imdbVotes}</span>
-          </div>
-          <Link to='/' className='single-movie__link'>
-            return to movies
-          </Link>
-        </div>
+      <section className='error-page'>
+        <h1 className='error-page__title'>{error.msg}</h1>
+        <Link to='/' className='error-page__link'>
+          return to movies
+        </Link>
       </section>
     )
   }
+  const {
+    Poster,
+    Title,
+    Plot,
+    Year,
+    Runtime,
+    Rated,
+    Genre,
+    Awards,
+    imdbRating,
+    imdbVotes,
+  } = data
+  return (
+    <section className='single-movie'>
+      <img
+        className='single-movie__img'
+        src={Poster === 'N/A' ? NoPictureImage : Poster}
+        alt={Title}
+      />
+      <div className='single-movie__info'>
+        <h2 className='single-movie__title'>{Title}</h2>
+        <p>{Plot}</p>
+        <div className='single-movie__tags'>
+          <span>Year: {Year}</span>
+          <span>Runtime: {Runtime}</span>
+          <span>Rated: {Rated}</span>
+          <span>Genre{Genre}</span>
+          <span>{Awards}</span>
+          <span>Rating: {imdbRating}</span>
+          <span>Votes: {imdbVotes}</span>
+        </div>
+        <Link to='/' className='single-movie__link'>
+          return to movies
+        </Link>
+      </div>
+    </section>
+  )
 }
 
 export default SingleMovie

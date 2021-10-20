@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useGlobalContext } from '../../context'
 
 const Search = () => {
-  const { setsearchTerm, error } = useGlobalContext()
+  const { query, setQuery, error } = useGlobalContext()
   const searchValue = useRef('')
+  const [searchTerm, setSearchTerm] = useState(query)
 
   useEffect(() => {
     searchValue.current.focus()
@@ -11,7 +12,7 @@ const Search = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setsearchTerm(searchValue.current.value)
+    setQuery(searchTerm)
   }
 
   return (
@@ -22,6 +23,8 @@ const Search = () => {
           type='text'
           className='search__input'
           name='name'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           ref={searchValue}
         />
         <button className='search__submit'>Search</button>
