@@ -4,14 +4,15 @@ import Loading from '../Loading'
 import { useGlobalContext } from '../../context'
 
 const MovieList = () => {
-  const { movies, loading } = useGlobalContext()
+  const { data, loading } = useGlobalContext()
   if (loading) {
     return <Loading />
   }
 
   return (
     <section className='movie-list'>
-      {movies.map((item) => {
+      {data.map((item) => {
+        // console.log('movieList item: ', item)
         return <MovieListItem key={item.imdbID} {...item} />
       })}
     </section>
